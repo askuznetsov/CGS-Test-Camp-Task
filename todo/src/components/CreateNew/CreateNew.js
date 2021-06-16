@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function CreateNew(props) {
+const CreateNew = (props) => {
     const addNewTask = event => {
         event.preventDefault();
 

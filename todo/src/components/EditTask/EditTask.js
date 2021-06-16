@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 
-function EditTask(props) {
+const EditTask = (props) => {
     const editTask = event => {
         event.preventDefault();
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Welcome() {
+const Welcome = () => {
     return (
         <div>
             <button>

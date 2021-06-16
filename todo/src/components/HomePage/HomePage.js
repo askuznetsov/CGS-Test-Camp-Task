@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function HomePage(props) {
+const HomePage = (props) => {
     const taskList = props.tasks.map((task, index) => {
         return (
             <div key={index}>

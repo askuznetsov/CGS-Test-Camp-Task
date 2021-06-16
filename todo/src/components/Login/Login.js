@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Login() {
+const Login = () => {
     return (
         <div>
             <form>

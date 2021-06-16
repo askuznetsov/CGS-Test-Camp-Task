@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+type CompleteStatus = 'Completed' | 'Not Compelted';
+type PrivacyStatus = 'Private' | 'Public'; 
 
-function SingleTask(props) {
+interface IInfo {
+    title: string;
+    year: number;
+    description: string;
+    completed: CompleteStatus;
+    privacy: PrivacyStatus;
+}
+interface Props {
+    id: number;
+    info: IInfo;
+    deleteSingleTask(id:number): void;
+
+}
+const SingleTask = (props:Props) => {
     const deleteTask = () => {
         props.deleteSingleTask(props.id);
     };
