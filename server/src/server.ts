@@ -5,6 +5,9 @@ import connectDB from "../config/database";
 import auth from "./routes/api/auth";
 import user from "./routes/api/user";
 import profile from "./routes/api/profile";
+import todolist from "./routes/api/todolist"
+
+// const todolistRouter = require('./routes/api/todolist');
 
 const app = express();
 
@@ -26,6 +29,8 @@ app.get("/", (_req, res) => {
 app.use("/api/auth", auth);
 app.use("/api/user", user);
 app.use("/api/profile", profile);
+
+app.use("/api/todolist", todolist); 
 
 const port = app.get("port");
 const server = app.listen(port, () =>
