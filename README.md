@@ -16,7 +16,8 @@ Design: [https://balsamiq.cloud/syedgi8/pnzr5a1/r050B](https://balsamiq.cloud/sy
 ## PR convention
 
 1. Each intern will be attached to the branch (`<username>/main`);
-2. When you are working on the feature you should create a separate branch from `<username>/main`. When you will finished with subtask you should create PR into `<username>/main` and ping `Danyyl Kuchkov` for review;
+2. When you are working on the feature you should create a separate branch from `<username>/main` with name  
+`feature/<username>/<feautre-name>` or `bug/<username>/<feautre-name>`. When you will finished with subtask you should create PR into `<username>/main` and ping `Danyyl Kuchkov` for review;
 3. Title of PR should be `feat: <name of your feature>` or `bug-fix: <name of your bugfix>`. Description field should contain short info about feature/bug;
 
 > If you will face with some issues with git. Ask `Danyyl Kuchkov` via slack;
