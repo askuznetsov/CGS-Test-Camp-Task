@@ -41,7 +41,7 @@ router.get("/findall", async (req: Request, res: Response) => {
 });
 
 router.get("/findfirst", async (req: Request, res: Response) => {
-    await Todo.findOne({ req },
+    await Todo.findOne(req.body,
         function (err, data) {
             if (err) {
                 console.log(err);
@@ -53,7 +53,7 @@ router.get("/findfirst", async (req: Request, res: Response) => {
 });
 
 router.get('/delete', async (req: Request, res: Response) => {
-    await Todo.deleteMany({ req },
+    await Todo.deleteMany(req.body,
         function (err, data) {
             if (err) {
                 console.log(err);
@@ -65,7 +65,7 @@ router.get('/delete', async (req: Request, res: Response) => {
 });
 
 router.get('/deletefirst', async (req: Request, res: Response) => {
-    await Todo.deleteOne({req},
+    await Todo.deleteOne(req.body,
         function (err, data) {
             if (err) {
                 console.log(err);
@@ -77,7 +77,7 @@ router.get('/deletefirst', async (req: Request, res: Response) => {
 });
 
 router.post('/delete', async (req: Request, res: Response) => {
-    await Todo.findByIdAndDelete((req.body.id),
+    await Todo.findByIdAndDelete(req.body.id,
         function (err, data) {
             if (err) {
                 console.log(err);
