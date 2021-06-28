@@ -11,9 +11,15 @@ const router: Router = Router();
 
 //Example
 router.get("/save", async (req: Request, res: Response) => {
-    var newTodo = new Todo({ Title: "new task", Description: "some text", Year: "2021", isPublic: true, isCompleted: false });
+    //var newTodo = new Todo({ Title: "test", Description: "test desc", Year: "2021", isPublic: true, isCompleted: false });
+    var newTask = new Todo();
+    newTask.Title = req.body.Title;
+    newTask.Description = req.body.Decsription;
+    newTask.Year = req.body.Year;
+    newTask.isPublic = req.body.isPublic;
+    newTask.isCompleted = req.body.isCompleted;
 
-    newTodo.save(function (err, data) {
+    newTask.save(function (err, data) {
         if (err) {
             console.log(err);
         }
@@ -21,10 +27,22 @@ router.get("/save", async (req: Request, res: Response) => {
             res.send("Data inserted");
         }
     });
-},
+});
 
-    router.get("/findall", async (req: Request, res: Response) => {
-        Todo.find(function (err, data) {
+router.get("/findall", async (req: Request, res: Response) => {
+    await Todo.find(function (err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(data);
+        }
+    });
+});
+
+router.get("/findfirst", async (req: Request, res: Response) => {
+    await Todo.findOne({ req },
+        function (err, data) {
             if (err) {
                 console.log(err);
             }
@@ -32,57 +50,57 @@ router.get("/save", async (req: Request, res: Response) => {
                 res.send(data);
             }
         });
-    }
+});
 
-    router.get("/findfirst", async (req: Request, res: Response) => {
-        Todo.findOne({ Year: "2021" },
-            function (err, data) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.send(data);
-                }
-            });
-    });
-
-    router.get('/delete', async (req: Request, res: Response) => {
-        Todo.remove({Year:"2021"}, 
-        function(err, data) {
-            if(err){
+router.get('/delete', async (req: Request, res: Response) => {
+    await Todo.deleteMany({ req },
+        function (err, data) {
+            if (err) {
                 console.log(err);
             }
-            else{
+            else {
                 res.send(data);
             }
-        });  
-    });
+        });
+});
 
-    router.post('/delete', async (req: Request, res: Response) => {
-        Todo.findByIdAndDelete((req.body.id), 
-        function(err, data) {
-            if(err){
+router.get('/deletefirst', async (req: Request, res: Response) => {
+    await Todo.deleteOne({req},
+        function (err, data) {
+            if (err) {
                 console.log(err);
             }
-            else{
+            else {
+                res.send(data);
+            }
+        });
+});
+
+router.post('/delete', async (req: Request, res: Response) => {
+    await Todo.findByIdAndDelete((req.body.id),
+        function (err, data) {
+            if (err) {
+                console.log(err);
+            }
+            else {
                 res.send(data);
                 console.log("Data Deleted!");
             }
-        });  
-    });
+        });
+});
 
-    router.post('/update', function(req, res) {
-        Todo.findByIdAndUpdate(req.body.id, 
-        {Name:req.body.Name}, function(err, data) {
-            if(err){
+router.post('/update', async function (req, res) {
+    await Todo.findByIdAndUpdate(req.body.id,
+        { req }, function (err, data) {
+            if (err) {
                 console.log(err);
             }
-            else{
+            else {
                 res.send(data);
                 console.log("Data updated!");
             }
-        });  
-    });
+        });
+});
 
 export default router;
 
