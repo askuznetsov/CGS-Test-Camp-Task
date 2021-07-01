@@ -10,96 +10,83 @@ import User, { IUser } from "../../models/User";
 const router: Router = Router();
 
 //Example
-router.get("/save", async (req: Request, res: Response) => {
+router.post("/save", async (req: Request, res: Response) => {
     //var newTodo = new Todo({ Title: "test", Description: "test desc", Year: "2021", isPublic: true, isCompleted: false });
-    var newTask = new Todo();
-    newTask.Title = req.body.Title;
-    newTask.Description = req.body.Decsription;
-    newTask.Year = req.body.Year;
-    newTask.isPublic = req.body.isPublic;
-    newTask.isCompleted = req.body.isCompleted;
+    try {
+        const newTask = new Todo();
+        newTask.Title = req.body.Title;
+        newTask.Description = req.body.Decsription;
+        newTask.Year = req.body.Year;
+        newTask.isPublic = req.body.isPublic;
+        newTask.isCompleted = req.body.isCompleted;
 
-    newTask.save(function (err, data) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.send("Data inserted");
-        }
-    });
+        newTask.save();
+    } catch (err) {
+        console.error(err.message);
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 });
 
-router.get("/findall", async (req: Request, res: Response) => {
-    await Todo.find(function (err, data) {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.send(data);
-        }
-    });
+router.get("/find", async (req: Request, res: Response) => {
+    try {
+        const tasks = await Todo.find({ req.body });
+
+        if (!tasks)
+            return res
+                .status(HttpStatusCodes.BAD_REQUEST)
+                .json({ msg: "Profile not found" });
+
+        res.json(tasks);
+    } catch (err) {
+        console.error(err.message);
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 });
 
 router.get("/findfirst", async (req: Request, res: Response) => {
-    await Todo.findOne({ req },
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                res.send(data);
-            }
+    try {
+        const tasks: ITodo = await Todo.findOne({
+            user: req.body.userId,
         });
+
+        if (!tasks)
+            return res
+                .status(HttpStatusCodes.BAD_REQUEST)
+                .json({ msg: "Profile not found" });
+
+        res.json(tasks);
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind === "ObjectId") {
+            return res
+                .status(HttpStatusCodes.BAD_REQUEST)
+                .json({ msg: "Profile not found" });
+        }
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 });
 
-router.get('/delete', async (req: Request, res: Response) => {
-    await Todo.deleteMany({ req },
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                res.send(data);
-            }
-        });
-});
+router.delete('/', async (req: Request, res: Response) => {
+    try {
+        await Todo.findByIdAndDelete({ user: req.userId });
 
-router.get('/deletefirst', async (req: Request, res: Response) => {
-    await Todo.deleteOne({req},
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                res.send(data);
-            }
-        });
-});
-
-router.post('/delete', async (req: Request, res: Response) => {
-    await Todo.findByIdAndDelete((req.body.id),
-        function (err, data) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                res.send(data);
-                console.log("Data Deleted!");
-            }
-        });
+        res.json({ msg: "Task removed" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 });
 
 router.post('/update', async function (req, res) {
-    await Todo.findByIdAndUpdate(req.body.id,
-        { req }, function (err, data) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                res.send(data);
-                console.log("Data updated!");
-            }
-        });
+    try {
+        await Todo.findByIdAndUpdate(req.body.id,
+            req.body);
+
+        res.json({ msg: "Task updated" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
 });
 
 export default router;

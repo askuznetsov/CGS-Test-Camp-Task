@@ -6,18 +6,24 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="container">
+        <h1>Create new Todo</h1>
+          <label htmlFor="title" id="title">Title</label>
+          <input name="form" type="text" form="title" required/>
+          <label htmlFor="description" id="description">Description</label>
+          <input name="form" type="text" form="description" required/>
+          <label htmlFor="year" id="year">Year</label>
+          <input name="form" type="number" form="year" required/>
+          <div className="checkbox_form">
+            <label htmlFor="isPublic" id="isPublic">Public</label>
+            <input name="form" type="checkbox" form="isPublic" required/>
+          </div>
+          <div className="checkbox_form">
+            <label htmlFor="isCompleted" id="isCompleted">Completed</label>
+            <input name="form" type="checkbox" form="isCompleted" required/>
+          </div>
+          <input name="form" type="submit" value="Create"/>
+        </div>
       </header>
     </div>
   );
