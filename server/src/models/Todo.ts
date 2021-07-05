@@ -10,6 +10,8 @@ import { IUser } from "./User";
  * @param isPublic:boolean
  * @param isCompleted:boolean
  */
+
+
 export interface ITodo extends Document {
     user: IUser["_id"];
     Title: string;
@@ -48,5 +50,6 @@ const todoSchema: Schema = new Schema({
 });
 
 const Todo: Model<ITodo> = model("Todo", todoSchema);
+
 
 export default Todo;

@@ -37,7 +37,7 @@
     }
 }
 
-.container {
+.container form {
     padding: 24px;
     display: flex;
     justify-content: space-between;
@@ -49,11 +49,11 @@
     border: 1px solid grey;
 }
 
-.container h1 {
+.container form h1 {
     margin: 0 0 48px 0 !important;
 }
 
-.container *:not(:last-child, .checkbox_form) {
+.container form *:not(:last-child, .checkbox_form) {
     margin-bottom: 24px;
 }
 
